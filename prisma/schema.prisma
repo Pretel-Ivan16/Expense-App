@@ -1,0 +1,23 @@
+// use prisma-8
+
+model Category {
+  id        Int               @id @default(autoincrement())
+  name      String            @unique
+  color     String?
+  expenses  Expense[]
+  createdAt TimestamptzString @default(now())
+}
+
+model Expense {
+  id          Int               @id @default(autoincrement())
+  description String
+  amount      Decimal
+  date        TimestamptzString @default(now())
+  category    Category?         @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  createdAt   TimestamptzString @default(now())
+  updatedAt   temporal.UpdatedAtString
+
+  @@index([date])
+  @@index([categoryId])
+}
